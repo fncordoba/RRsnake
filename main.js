@@ -19,6 +19,7 @@
         highscoresScene = null,
         body = [],
         food = null,
+        extraScore = null,
         //var wall = [],
         highscores = [],
         posHighscore = 10,
@@ -26,6 +27,7 @@
         score = 0,
         iBody = new Image(),
         iFood = new Image(),
+        iExtra = new Image(),
         aEat = new Audio(),
         aDie = new Audio();
 
@@ -143,11 +145,15 @@
         // Load assets
         iBody.src = 'assets/body.png';
         iFood.src = 'assets/fruit.png';
+        iExtra.src = 'assets/extra.png'
         aEat.src = 'assets/chomp2.ogg';
         aDie.src = 'assets/dies2.ogg';
 
         // Create food
         food = new Rectangle(80, 80, 10, 10);
+
+        // Create extraScore
+        extraScore = new Rectangle(random((canvas.width / 10 - 1) * 10), random((canvas.height / 10 - 1) * 10), 10, 10);
 
         // Create walls
         //wall.push(new Rectangle(50, 50, 10, 10));
@@ -226,6 +232,10 @@
         // Draw food
         ctx.strokeStyle = '#f00';
         food.drawImage(ctx, iFood);
+
+        // Draw extraScore
+        ctx.strokeStyle = '#6f03fc';
+        extraScore.drawImage(ctx, iExtra);
 
         // Draw score
         ctx.fillStyle = '#fff';
@@ -311,6 +321,21 @@
                 food.x = random(canvas.width / 10 - 1) * 10;
                 food.y = random(canvas.height / 10 - 1) * 10;
                 aEat.play();
+            }
+
+            // extraScore Intersects
+            if (body[0].intersects(extraScore)) {
+                score += 10;
+                extraScore.x = random(canvas.width / 10 - 1) * 10;
+                extraScore.y = random(canvas.height / 10 - 1) * 10;
+                aEat.play();
+                fetch(`http://www.jsonplaceholder.com/?score=${score}`)
+                .then (function () {
+                    console.log("All is Right")
+                })
+                .catch (function () {
+                    console.log("Something ocurred")
+                });
             }
 
             // Wall Intersects
