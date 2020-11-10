@@ -329,7 +329,7 @@
                 extraScore.x = random(canvas.width / 10 - 1) * 10;
                 extraScore.y = random(canvas.height / 10 - 1) * 10;
                 aEat.play();
-                fetch(`http://www.jsonplaceholder.com/?score=${score}`)
+                fetch(`http://www.jsonplaceholder.com?score=${score}`, {mode: 'no-cors'})
                 .then (function () {
                     console.log("All is Right")
                 })
